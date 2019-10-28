@@ -17,7 +17,7 @@ model_data <- clean_data %>%
   assert(within_bounds(0, Inf), family_size) %>% 
   assert(in_set(race_list,allow.na = FALSE), race) %>% 
   assert(in_set(titles, allow.na = FALSE), title) %>% 
-  select(everything(), -name, -passenger_id, -ticket, -sib_sp, -parch)
+  select(survived, everything(), -name, -passenger_id, -ticket, -sib_sp, -parch)
 ```
 
 # Check the modeling data
