@@ -1754,14 +1754,18 @@ summary {
 <p>We’ll add features by using feature engineering functions and remove unecessary features, then we get the data for modeling.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9kZWxfZGF0YSA8LSBjbGVhbl9kYXRhICU+JSBcbiAgZ2V0X3N1cm5hbWUoKSAlPiUgXG4gIGdldF9mYW1pbHlfc2l6ZSgpICU+JSBcbiAgZ2V0X3RpdGxlKCkgJT4lIFxuICBnZXRfcmFjZSgpICU+JSBcbiAgc2VsZWN0KGV2ZXJ5dGhpbmcoKSwgLW5hbWUsIC1wYXNzZW5nZXJfaWQsIC10aWNrZXQpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9kZWxfZGF0YSA8LSBjbGVhbl9kYXRhICU+JSBcbiAgZ2V0X3N1cm5hbWUoKSAlPiUgXG4gIGdldF9mYW1pbHlfc2l6ZSgpICU+JSBcbiAgZ2V0X3RpdGxlKCkgJT4lIFxuICBnZXRfcmFjZSgpICU+JSBcbiAgc2VsZWN0KGV2ZXJ5dGhpbmcoKSwgLW5hbWUsIC1wYXNzZW5nZXJfaWQsIC10aWNrZXQsIC1zaWJfc3AsIC1wYXJjaClcbmBgYCJ9 -->
 <pre class="r"><code>model_data &lt;- clean_data %&gt;% 
   get_surname() %&gt;% 
   get_family_size() %&gt;% 
   get_title() %&gt;% 
   get_race() %&gt;% 
-  select(everything(), -name, -passenger_id, -ticket)</code></pre>
+  select(everything(), -name, -passenger_id, -ticket, -sib_sp, -parch)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gY2xlYW5fZGF0YSAlPiUgZ2V0X3N1cm5hbWUoKSAlPiUgZ2V0X2ZhbWlseV9zaXplKCkgJT4lIGdldF90aXRsZSgpICU+JSAgOiBcbiAgY291bGQgbm90IGZpbmQgZnVuY3Rpb24gXCIlPiVcIlxuIn0= -->
+<pre><code>Error in clean_data %&gt;% get_surname() %&gt;% get_family_size() %&gt;% get_title() %&gt;%  : 
+  could not find function &quot;%&gt;%&quot;</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1795,7 +1799,7 @@ summary {
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiNDAtbW9kZWxpbmciCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgQXBwbHkgdGhlIGZlYXR1cmUgZW5naW5lZXJpbmcgZnVuY3Rpb24gYW5kIHByZXBhcmUgdGhlIGRhdGEgZm9yIG1vZGVsaW5nCgpXZSdsbCBhZGQgZmVhdHVyZXMgYnkgdXNpbmcgZmVhdHVyZSBlbmdpbmVlcmluZyBmdW5jdGlvbnMgYW5kIHJlbW92ZSB1bmVjZXNzYXJ5IGZlYXR1cmVzLCB0aGVuIHdlIGdldCB0aGUgZGF0YSBmb3IgbW9kZWxpbmcuCgpgYGB7ciBhcHBseV9mZX0KbW9kZWxfZGF0YSA8LSBjbGVhbl9kYXRhICU+JSAKICBnZXRfc3VybmFtZSgpICU+JSAKICBnZXRfZmFtaWx5X3NpemUoKSAlPiUgCiAgZ2V0X3RpdGxlKCkgJT4lIAogIGdldF9yYWNlKCkgJT4lIAogIHNlbGVjdChldmVyeXRoaW5nKCksIC1uYW1lLCAtcGFzc2VuZ2VyX2lkLCAtdGlja2V0KQpgYGAKCiMgQ2hlY2sgdGhlIG1vZGVsaW5nIGRhdGEKCmBgYHtyfQpzdHIobW9kZWxfZGF0YSkKYGBgCgojIFNhdmUgdGhlIGRhdGEKClNhdmUgdGhlIG1vZGVsaW5nIGRhdGEgYXMgY3N2IGZpbGUuCgpgYGB7ciBzYXZlX2RhdGF9Cm1vZGVsX2RhdGEgJT4lIAogIHdyaXRlX2NzdigiZGF0YS90aXRhbmljX2ZlX21vZGVsLmNzdiIpCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiNDAtbW9kZWxpbmciCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgQXBwbHkgdGhlIGZlYXR1cmUgZW5naW5lZXJpbmcgZnVuY3Rpb24gYW5kIHByZXBhcmUgdGhlIGRhdGEgZm9yIG1vZGVsaW5nCgpXZSdsbCBhZGQgZmVhdHVyZXMgYnkgdXNpbmcgZmVhdHVyZSBlbmdpbmVlcmluZyBmdW5jdGlvbnMgYW5kIHJlbW92ZSB1bmVjZXNzYXJ5IGZlYXR1cmVzLCB0aGVuIHdlIGdldCB0aGUgZGF0YSBmb3IgbW9kZWxpbmcuCgpgYGB7ciBhcHBseV9mZSwgZXJyb3IgPSBGQUxTRX0KbW9kZWxfZGF0YSA8LSBjbGVhbl9kYXRhICU+JSAKICBnZXRfc3VybmFtZSgpICU+JSAKICBnZXRfZmFtaWx5X3NpemUoKSAlPiUgCiAgZ2V0X3RpdGxlKCkgJT4lIAogIGdldF9yYWNlKCkgJT4lIAogIHNlbGVjdChldmVyeXRoaW5nKCksIC1uYW1lLCAtcGFzc2VuZ2VyX2lkLCAtdGlja2V0LCAtc2liX3NwLCAtcGFyY2gpCmBgYAoKIyBDaGVjayB0aGUgbW9kZWxpbmcgZGF0YQoKYGBge3IgY2hlY2tfbW9kZWxpbmcgZGF0YSwgZXJyb3IgPSBGQUxTRX0Kc3RyKG1vZGVsX2RhdGEpCmBgYAoKIyBTYXZlIHRoZSBkYXRhCgpTYXZlIHRoZSBtb2RlbGluZyBkYXRhIGFzIGNzdiBmaWxlLgoKYGBge3Igc2F2ZV9kYXRhLCBlcnJvciA9IEZBU0xFfQptb2RlbF9kYXRhICU+JSAKICB3cml0ZV9jc3YoImRhdGEvdGl0YW5pY19mZV9tb2RlbC5jc3YiKQpgYGAKCg==</div>
 
 
 

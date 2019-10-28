@@ -14,9 +14,9 @@ In this challenge, we are trying to build a predictive model that answers the qu
 
 ## Data Dictionary
 
-PassengerId:	An arbitrary ID assigned to each passenger  
-Survived:	A dummy variable. 1 = Survived, 0 = Did not survive  
-Pclass:	The passenger’s class number. Hierarchy to be determined  
+PassengerId:	An arbitrary ID assigned to each passenger    
+Survived:	The suvival status of the passenfer (1 = Survived, 0 = Did not survive)    
+Pclass:	The passenger’s class number (1 = 1st; 2 = 2nd; 3 = 3rd)    
 Name:	The passenger’s first name, last name, and title  
 Sex:	The passenger’s gender  
 Age:	The passenger’s age (in years)  
@@ -25,7 +25,7 @@ Parch:	The number of parents/children aboard the ship with the passenger
 Ticket:	The passenger’s ticket number  
 Fare:	How much the passenger paid to board the ship  
 Cabin:	The passenger’s cabin number  
-Embarked:	Where the passenger embarked from.    
+Embarked:	Where the passenger embarked from (C = Cherbourg; Q = Queenstown; S = Southampton)    
 
 ## Data Source
 
