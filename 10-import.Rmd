@@ -1,0 +1,196 @@
+---
+title: "10_import"
+output: html_notebook
+---
+
+# Load the libraries
+
+The libraries I need 
+
+```{r import_libraries, warning=FALSE}
+# Install the package "wru" if you need
+# install.packages("wru")
+library(readr)
+library(janitor)
+library(assertr)
+library(tidyverse)
+library(glue)
+library(scales)
+library(wru)
+```
+
+# Load the data set
+
+Load the data and clean the feature names
+
+```{r import_data}
+train <- read_csv("data/train.csv") %>% 
+  clean_names()
+```
+
+# Initially check the data
+
+```{r init_check}
+dim(train)
+str(train)
+```
+
+From the message above, we can see that there are 891 observations and we have 12 different features.
+
+Here is the data dictionary
+
+Variables | description
+---|---
+**passenger_id** | An arbitrary ID assigned to each passenger
+**survived** | The suvival status of the passenfer (1 = Survived, 0 = Did not survive)
+**pclass** | The passenger’s class number (1 = 1st; 2 = 2nd; 3 = 3rd)
+**name** | The passenger’s first name, last name, and title
+**sex** | The passenger’s gender
+**age** | The passenger’s age (in years)
+**sib_sp** | The number of siblings/spouses aboard the ship with the passenger
+**parch** | The number of parents/children aboard the ship with the passenger
+**ticket** | The passenger’s ticket number
+**fare** | How much the passenger paid to board the ship
+**cabin** | The passenger’s cabin number
+**embarked** | Where the passenger embarked from (C = Cherbourg; Q = Queenstown; S = Southampton)
+
+# Test the factor features
+
+From the overview of our dataset, we should test all the string feature which should be factors in this part.
+
+## Test the "survived" variable
+
+Check if all of the values are 0 or 1.
+
+```{r test_survived}
+train %>% 
+  assert(in_set(0, 1), survived)
+```
+
+Great!  We do not have outliers for the "survived" feature, all of them are 0 or 1.
+
+## Test the "pclass" variable
+
+Check if all of the values are 1 or 2 or 3.
+
+```{r test_pclass}
+train %>% 
+  assert(in_set(1, 2, 3), pclass)
+```
+
+Great!  We do not have outliers, all of them are 1 or 2 or 3.
+
+## Test the "sex" variable
+
+Check if all of the values are "male" or "female".
+
+```{r test_sex}
+train %>% 
+  assert(in_set("male","female"), sex)
+```
+
+Great!  We do not have outliers for the "sex" feature, all of the values are "male" or "female".
+
+## Test the "embarked" variable
+
+Check if all of the values are "C" or "Q" or "S".
+
+```{r test_embarked}
+train %>% 
+  assert(in_set("C","Q", "S"), embarked)
+```
+
+Great!  We do not have outliers for the "embarked" feature, all of the values are "C" or "Q" or "S".
+
+# Test the numeric variables
+
+For this part, we shoud test every numeric variables.
+
+## Test the "age" variable
+
+Check if all the values are between 0 and 200.
+
+```{r test_age}
+train %>% 
+  assert(within_bounds(0,200), age)
+```
+
+Great!  We do not have outliers for the "age" feature, all the values are between 0 and 200.
+
+## Test the "sib_sp" variable
+
+Check if all the values are bigger than 0.
+
+```{r test_sibsp}
+train %>% 
+  assert(within_bounds(0,Inf), sib_sp)
+```
+
+Great!  We do not have outliers for the "sib_sp" feature, all the values are bigger than 0.
+
+## Test the "parch" variable
+
+Check if all the values are bigger than 0.
+
+```{r test_parch}
+train %>% 
+  assert(within_bounds(0,Inf), parch)
+```
+
+Great!  We do not have outliers for the "parch" feature, all the values are bigger than 0.
+
+## Test the "fare" variable
+
+Check if all the values are bigger than 0.
+
+```{r test_fare}
+train %>% 
+  assert(within_bounds(0,Inf), fare)
+```
+
+Great!  We do not have outliers for the "fare" feature, all the values are bigger than 0.
+
+# Data cleaning
+
+From the previous section we know that we don't have outliers for our features, for this part, we are going to remove the NA values and convert the data columns.
+
+## Check the NA values
+
+Check all the NA values
+
+```{r check_all_NA}
+colSums(is.na(train))
+```
+
+We can see that we have 177 NA values in "age", 687 in "cabin", 2 in "embarked".
+
+## Remove the NA values.
+
+For the "cabin" feature, the count of NA values are more than half, so we decide to remove this feature, for "age" and "embarked", the missing values do not take a really huge proportion so we just remove those NA values.
+
+```{r remove_NA}
+data_complete <- train %>% 
+  select(everything(),-cabin) %>% 
+  na.omit()
+data_complete
+```
+
+## Convert data columns.
+
+For our data, we should change the "survived", "pclass", "sex", "embarked" into factor variables.
+
+```{r convert_columns}
+clean_data <- data_complete %>% 
+  mutate(survived = as.factor(survived),
+         pclass = as.factor(pclass),
+         sex = as.factor(sex),
+         embarked = as.factor(embarked))
+```
+
+## Check the clean data
+
+```{r check_clean_data}
+str(clean_data)
+```
+
+The data is clean now.

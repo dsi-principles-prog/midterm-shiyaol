@@ -1,0 +1,141 @@
+---
+title: "30-feature-engineering"
+output: html_notebook
+---
+
+# Feature engineering functions.
+
+## Get the surnames
+
+**Why are we doing this**: For our numeric variables, we can get the surname of the passengaer.  Some rich families might have more chances to survive
+
+**Hint: Use "strsplit" function in R**
+
+**The input of the function: A dataframe**
+
+**The output of the function: A dataframe with surnames and name the variable as "surname"**
+
+### Define the function
+
+```{r surname_function}
+get_surname <- function(df){
+  # Your code here
+  
+}
+```
+
+### Test the function
+
+Check if all the surname is in the pre-defined surname list!
+
+**Import the surname data set and transfer it in to factor**
+
+```{r import_surname, message=FALSE}
+surname_file <- read_csv("data/surname.csv")
+sname <- as.character(surname_file$`train$Surname`)
+```
+
+```{r test_scale_function, message = FALSE, error=TRUE}
+get_surname(clean_data) %>% 
+  assert(in_set(sname), surname)
+```
+
+## Get the family size
+
+**Why are we doing this**: A passenger who is in a big family has a bigger chance to get help!  A passenger who traveled alone is less likely to survive.  
+
+**Hint: Family size for each passenger = sib_sp + parch + 1**
+
+**The input of the function: A dataframe**
+
+**The output of the function: A dataframe with family size and name the variable as "family_size"**
+
+### Define funtion
+
+```{r family_size_funtion}
+get_family_size <- function(df){
+  # Your code here
+}
+```
+
+### Test function
+
+Test if all the sizes are bigger than 0.
+
+```{r test_family_size_function}
+get_family_size(clean) %>% 
+  assert(within_bounds(0, Inf), family_size)
+```
+
+## Get the title
+
+**Why are we doing this**: The different titles of the passengers might represent for different status.  For example, "Capt", "Col" is more respective title for a passenger, it might mean that they are rich, rich people have more chances to survive.  For this part, we'll set "Capt","Col","Don","Dona","Dr","Jonkheer","Lady","Major", "Mlle", "Mme","Rev","Sir","the Countess" as "VIP" titles.  We'll also set "Ms" to "Mrs"
+
+**The input of the function: A dataframe**
+
+**The output of the function: A dataframe with title and name the variable as "title"**
+
+### Define the function
+
+```{r title_function}
+get_title <- function(df){
+  VIP <- c("Capt","Col","Don","Dona","Dr","Jonkheer","Lady","Major", "Mlle", "Mme","Rev","Sir","the Countess")
+  temp <- df %>% 
+    mutate(title = gsub('(.*, )|(\\..*)', '', name)) 
+  
+  temp$title[temp$title %in% VIP] <- "VIP"
+  temp[temp$title=="Ms",]$title <- "Mrs"
+  temp$title <- as.factor(temp$title)
+  return(temp)
+}
+```
+
+### Test the function
+
+Check if the titles are in the set:
+Master, Miss, Mr, Mrs, VIP
+
+```{r test_title_function}
+titles = c("Master", "Miss", "Mr", "Mrs", "VIP")
+get_title(clean_data) %>% 
+  assert(in_set(titles, allow.na = FALSE), title)
+```
+
+Great!  All of the titles are in the set!
+
+## Get the race
+
+**Why are we doing this**: We can use the package "wru" to guess the race by our surnames.  It will return us the probability for each race and we can take the one with biggest probability as the race.  The raccial discrimination issue is always existing.  So passengers of different race might get different degree of help in the disaster, so it might contribute to the survival status of passengers.
+
+**The input of the function: A dataframe**
+
+**The output of the function: A dataframe with race and name the variable as "race"**
+
+### Define the function
+
+```{r race_function}
+get_race <- function(df){
+  temp <- df
+  temp$surname<- gsub("([A-Za-z]+).*", "\\1", temp$name)
+  # Calculate the probability for each race
+  raceprobs <- predict_race(temp,surname.only = TRUE)[13:17]
+  # Obtain the max value
+  racepreds <- suppressWarnings(colnames(raceprobs)[apply(raceprobs,1,which.max)])
+  # Change the name format of the race and make it a factor variable
+  temp$race <- as.factor(sub('.*\\.', '',racepreds))
+  return(temp)
+}
+```
+
+### Test the function
+
+Check if the titles are in the set:
+whi, bla, his, asi, oth
+
+```{r test_race_function, warning=FALSE}
+race_list = c("whi", "bla", "his", "asi", "oth")
+get_race(clean_data) %>% 
+  assert(in_set(race_list,allow.na = FALSE), race)
+```
+
+Great!  All of the races are in the set!

@@ -1,0 +1,33 @@
+---
+title: "40-modeling"
+output: html_notebook
+---
+
+# Apply the feature engineering function and prepare the data for modeling
+
+We'll add features by using feature engineering functions and remove unecessary features, then we get the data for modeling.
+
+```{r apply_fe}
+model_data <- clean_data %>% 
+  get_surname() %>% 
+  get_family_size() %>% 
+  get_title() %>% 
+  get_race() %>% 
+  select(everything(), -name, -passenger_id, -ticket)
+```
+
+# Check the modeling data
+
+```{r}
+str(model_data)
+```
+
+# Save the data
+
+Save the modeling data as csv file.
+
+```{r save_data}
+model_data %>% 
+  write_csv("data/titanic_fe_model.csv")
+```
+
