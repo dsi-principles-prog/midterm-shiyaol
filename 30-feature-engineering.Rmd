@@ -15,6 +15,8 @@ output: html_notebook
 
 **The output of the function: A dataframe with surnames and name the variable as "surname"**
 
+For example, if the name of the passenger is "Braund, Mr. Owen Harris", you should extract "Braud" as the surname.
+
 ### Define the function
 
 ```{r surname_function}
@@ -49,6 +51,8 @@ get_surname(clean_data) %>%
 **The input of the function: A dataframe**
 
 **The output of the function: A dataframe with family size and name the variable as "family_size"**
+
+For example, if the "sib_sp" value of the passenger is 1, the "parch" value of a passenger is 2, the family size would be 1 + 2 + 1 = 4
 
 ### Define funtion
 
