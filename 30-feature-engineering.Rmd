@@ -67,7 +67,7 @@ get_family_size <- function(df){
 Test if all the sizes are bigger than 0.
 
 ```{r test_family_size_function}
-get_family_size(clean) %>% 
+get_family_size(clean_data) %>% 
   assert(within_bounds(0, Inf), family_size)
 ```
 
@@ -109,7 +109,7 @@ Great!  All of the titles are in the set!
 
 ## Get the race
 
-**Why are we doing this**: We can use the package "wru" to guess the race by our surnames.  It will return us the probability for each race and we can take the one with biggest probability as the race.  The raccial discrimination issue is always existing.  So passengers of different race might get different degree of help in the disaster, so it might contribute to the survival status of passengers.
+**Why are we doing this**: We can use the package "wru" to guess the race by our surnames.  It will return us the probability for each race and we can take the one with biggest probability as the race.  The racial discrimination issue is always existing.  So passengers of different race might be treated differently in the disaster, so it might contribute to the survival status of passengers.
 
 **The input of the function: A dataframe**
 

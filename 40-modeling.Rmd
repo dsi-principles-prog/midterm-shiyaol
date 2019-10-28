@@ -5,7 +5,7 @@ output: html_notebook
 
 # Apply the feature engineering function and prepare the data for modeling
 
-We'll add features by using feature engineering functions and remove unecessary features, then we get the data for modeling.
+We'll add features by using feature engineering functions and remove unecessary features, we'll also test all the new variables, then we get the data for modeling.
 
 ```{r apply_fe, error = FALSE}
 model_data <- clean_data %>% 
@@ -13,6 +13,10 @@ model_data <- clean_data %>%
   get_family_size() %>% 
   get_title() %>% 
   get_race() %>% 
+  assert(in_set(sname), surname) %>% 
+  assert(within_bounds(0, Inf), family_size) %>% 
+  assert(in_set(race_list,allow.na = FALSE), race) %>% 
+  assert(in_set(titles, allow.na = FALSE), title) %>% 
   select(everything(), -name, -passenger_id, -ticket, -sib_sp, -parch)
 ```
 
