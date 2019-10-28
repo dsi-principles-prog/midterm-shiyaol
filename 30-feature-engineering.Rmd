@@ -37,7 +37,7 @@ surname_file <- read_csv("data/surname.csv")
 sname <- as.character(surname_file$`train$Surname`)
 ```
 
-```{r test_scale_function, message = FALSE, error=TRUE}
+```{r test_scale_function}
 get_surname(clean_data) %>% 
   assert(in_set(sname), surname)
 ```
