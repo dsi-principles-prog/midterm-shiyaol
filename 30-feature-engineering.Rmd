@@ -20,10 +20,14 @@ For example, if the name of the passenger is "Braund, Mr. Owen Harris", you shou
 ### Define the function
 
 ```{r surname_function}
+
 get_surname <- function(df){
-  # Your code here
-  
+  str_split(df, ", ", simplify=TRUE)
 }
+
+clean_data <- clean_data %>% 
+  mutate(surname = get_surname(clean_data$name)[,1])
+
 ```
 
 ### Test the function
@@ -38,7 +42,7 @@ sname <- as.character(surname_file$`train$Surname`)
 ```
 
 ```{r test_scale_function}
-get_surname(clean_data) %>% 
+clean_data %>% 
   assert(in_set(sname), surname)
 ```
 
